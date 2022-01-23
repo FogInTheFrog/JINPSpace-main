@@ -1,0 +1,29 @@
+Models:
+https://quaternius.itch.io/ (ship)
+https://aurynsky.itch.io/rockets-bombs-and-missiles-pack-3d-assets (rockets-bombs-and-missiles-pack-3d-assets)
+https://brokenvector.itch.io/low-poly-rock-pack 
+https://godgoldfear.itch.io/low-poly-gems
+https://kenney-assets.itch.io/
+
+
+Background:
+https://dinvstudio.itch.io/dynamic-space-background-lite-free
+
+jet engine effect
+https://www.youtube.com/watch?v=GYQu3HrbRGo&ab_channel=Shackmancreatesartandgames
+https://www.youtube.com/watch?v=__y100uwVdM&ab_channel=Imphenzia (simple)
+
+prjectile effect
+https://www.youtube.com/watch?v=xenW67bXTgM&ab_channel=GabrielAguiarProd.
+
+force field
+https://www.youtube.com/watch?v=NiOGWZXBg4Y&ab_channel=Brackeys
+
+hyperdrive (background?):
+https://www.youtube.com/watch?v=4hlCOUoc6aQ&ab_channel=Mirza
+
+UI:
+http://theflyingkeyboard.net/unity/unity-ui-9-sliced-image/
+
+hat:
+https://sketchfab.com/3d-models/low-poly-santa-hat-7010557be50e459da9d0a2bcc0cfff4a
