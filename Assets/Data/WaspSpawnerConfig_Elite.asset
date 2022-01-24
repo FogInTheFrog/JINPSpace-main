@@ -15,3 +15,4 @@ MonoBehaviour:
   Enemies:
   - {fileID: 1669447061573671337, guid: 1a0a3cd392e19d44ebe1a389f894d985, type: 3}
   SpawnIntervalSeconds: 12
+  PointsReward: 100

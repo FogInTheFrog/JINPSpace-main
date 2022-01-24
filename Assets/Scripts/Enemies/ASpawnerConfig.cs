@@ -7,6 +7,8 @@ public abstract class ASpawnerConfig<T> : ScriptableObject where T : APooledObje
 
     public float SpawnIntervalSeconds = 1f;
 
+    public int PointsReward = 0;
+
     public T GetRandomEnemy()
     {
         if (Enemies == null || Enemies.Count == 0)

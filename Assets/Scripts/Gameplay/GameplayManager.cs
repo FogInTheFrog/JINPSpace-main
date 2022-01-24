@@ -11,6 +11,8 @@ public class GameplayManager : ASingleton<GameplayManager>
 
     private bool m_Paused = false;
 
+    public static int DifficultyLevel = 1;
+
     public void HandlePointsAdded(int addedPoints)
     {
         m_Points += addedPoints;
@@ -64,6 +66,13 @@ public class GameplayManager : ASingleton<GameplayManager>
     {
         yield return new WaitForSeconds(2f);
         RestartLevel();
+    }
+
+    public static void SetDifficultyLevel(int level)
+    {
+        Debug.Log(string.Format("Changing difficulty from {0} to {1}", DifficultyLevel, level));
+
+        DifficultyLevel = level;
     }
 
 }

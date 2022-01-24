@@ -3,14 +3,15 @@ using UnityEngine;
 public abstract class AEnemySpawner<T> : MonoBehaviour where T : APooledObject
 {
     [SerializeField]
-    private ASpawnerConfig<T> m_Config = null;
+    protected ASpawnerConfig<T> m_Config = null;
 
     private float m_Timer = 0f;
 
     private void Update()
     {
         m_Timer += Time.deltaTime;
-        if (m_Timer >= m_Config.SpawnIntervalSeconds)
+        float timeBetweenSpawns = m_Config.SpawnIntervalSeconds / GameplayManager.DifficultyLevel * 2f;
+        if (m_Timer >= timeBetweenSpawns)
         {
             m_Timer = 0f;
             SpawnEnemy();

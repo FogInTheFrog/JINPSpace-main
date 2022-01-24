@@ -10,6 +10,9 @@ public class DestructibleObject : MonoBehaviour
     private int m_TotalHealthpoints = 100;
 
     [SerializeField]
+    public bool IsPlayer = false;
+
+    [SerializeField]
     private int m_CurrentHealthpoints = 0;
 
     [SerializeField]
@@ -24,6 +27,9 @@ public class DestructibleObject : MonoBehaviour
     private PrefabPool<FloatingText> m_FloatingTextPool = null;
 
     [Header("Healthbar")]
+    [SerializeField]
+    private bool m_HasHealthbar = true;
+
     [SerializeField]
     private Vector3 m_HealthbarOffset;
 
@@ -44,6 +50,20 @@ public class DestructibleObject : MonoBehaviour
         m_FloatingTextPool = PoolManager.Instance.GetPool(m_FloatingTextPrefab);
     }
 
+    private int CalculateDamage(DamageInfo damageInfo)
+    {
+        int damage = damageInfo.DamageAmount;
+        Debug.Log(name);
+        if (name == "Player")
+        {
+            float damageMultiplier = (float)GameplayManager.DifficultyLevel / 4;
+            Debug.Log("Calculating damage for player. Reducing it by " + (int)(100 * (1- damageMultiplier)) + '%');
+            damage = (int)(damage * damageMultiplier);
+        }
+
+        return damage;
+    }
+
     public void ApplyDamage(DamageInfo damageInfo)
     {
         if (m_IsDestroyed)
@@ -52,20 +72,26 @@ public class DestructibleObject : MonoBehaviour
         }
 
         InstantiateFloatingText(
-            damageInfo.DamageAmount.ToString(),
+            "-" + damageInfo.DamageAmount.ToString(),
             damageInfo.Dealer.transform.position);
 
-        m_CurrentHealthpoints -= damageInfo.DamageAmount;
+        int damage = CalculateDamage(damageInfo);
 
-        if (m_Healthbar == null)
+        m_CurrentHealthpoints -= damage;
+
+        if (m_HasHealthbar)
         {
-            PrefabPool<Healthbar> healthbarPool = PoolManager.Instance.GetPool(m_HealthbarPrefab);
+            if (m_Healthbar == null)
+            {
+                PrefabPool<Healthbar> healthbarPool = PoolManager.Instance.GetPool(m_HealthbarPrefab);
 
-            m_Healthbar = healthbarPool.Get();
-            m_Healthbar.Reset(transform, m_HealthbarOffset);
+                m_Healthbar = healthbarPool.Get();
+                m_Healthbar.Reset(transform, m_HealthbarOffset);
+            }
+
+            m_Healthbar.SetPercentage((float)m_CurrentHealthpoints / m_TotalHealthpoints);
         }
-
-        m_Healthbar.SetPercentage((float)m_CurrentHealthpoints / m_TotalHealthpoints);
+        
 
 
         if (m_CurrentHealthpoints <= 0)
@@ -101,20 +127,41 @@ public class DestructibleObject : MonoBehaviour
             InstantiateFloatingText(
             textLvLUp,
             GameObject.Find("Player").transform.position);
-            m_IsDestroyed = true;
 
+            DestroySelf();
+        }
+    }
+
+    private void DestroySelf()
+    {
+        m_IsDestroyed = true;
+
+        if (m_Healthbar != null)
+        {
             m_Healthbar.ReturnToPool();
             m_Healthbar = null;
+        }
 
-            
-            OnDestroyed.Invoke();
+        OnDestroyed.Invoke();
+    }
+
+
+    public void AddBonusHP(int hp)
+    {
+        hp = Mathf.Min(hp, 100 - m_CurrentHealthpoints);
+        if (hp > 0)
+        {
+            IncrementHP(hp);
+            string text = "+" + hp + "HP";
+            InstantiateFloatingText(text, transform.position);
         }
     }
 
     public void IncrementHP(int x)
     {
         m_CurrentHealthpoints += x;
-        m_Healthbar.SetPercentage((float)m_CurrentHealthpoints / m_TotalHealthpoints);
+        if (m_Healthbar != null)
+            m_Healthbar.SetPercentage((float)m_CurrentHealthpoints / m_TotalHealthpoints);
     }
 
     private void InstantiateFloatingText(string text, Vector3 position)

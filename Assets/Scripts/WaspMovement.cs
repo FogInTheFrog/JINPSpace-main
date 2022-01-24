@@ -7,6 +7,9 @@ public class WaspMovement : APooledObject
 
     private readonly int m_DeathAnimatorHash = Animator.StringToHash("Death");
 
+    private int m_PointReward = 0;
+    public int PointReward { set { m_PointReward = value; } }
+
     [Header("Misc")]
     [SerializeField]
     private DestructibleObject m_DestructibleObject = null;
@@ -65,7 +68,7 @@ public class WaspMovement : APooledObject
 
     private void HandleDeathAnimationEvent()
     {
-        GameplayManager.Instance.HandlePointsAdded(999);
+        GameplayManager.Instance.HandlePointsAdded(m_PointReward);
 
         if (m_AttackCoroutine != null)
         {
